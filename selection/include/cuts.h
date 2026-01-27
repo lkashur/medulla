@@ -16,6 +16,7 @@
 
 #include "utilities.h"
 #include "framework.h"
+#include "selectors.h"
 
 /**
  * @namespace cuts
@@ -548,5 +549,71 @@ namespace cuts
         return count == 1;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel, single_michel);
+
+    /**
+     * @brief Apply cut on the number of photons in interaction (exactly two).
+     * @details This functin applies a cut on the number of above-threshold photons
+     * in the interaction, requiring exactly two.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @return true if the interaction contains exactly two above-threshold photons.
+     */
+    template<class T>
+    bool two_photons(const T & obj, std::vector<double> params={})
+    {
+        size_t count(0);
+	for(const auto & p : obj.particles)
+	{
+	    if(pvars::pid(p) == 0 && pvars::primary_classification(p) && pvars::ke(p) >= params[0])
+	      ++count;
+	}
+	return count == 2;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, two_photons, two_photons);  
+
+    /**
+     * @brief Apply cut on the interaction's leading photon kinetic energy.
+     * @details This function applies a cut on the interaction's leading photon,
+     * requiring its kinetic energy to be above a specified threshold.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @param params the kinetic enregy threshold applied.
+     * @return true if the interaction contains a photon with kinetic energy above specifed theshold.
+     */
+    template<class T>
+    bool leading_photon_ke_cut(const T & obj, std::vector<double> params={})
+    {
+      
+        bool passes(false);
+	
+        size_t phi = selectors::leading_photon(obj);
+	if(phi == kNoMatch)
+	{
+	    return false;
+	}
+	else
+	{
+	    auto & ph(obj.particles[phi]);
+	    return pvars::calo_ke(ph) >= params[0];
+	}
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, leading_photon_ke_cut, leading_photon_ke_cut);
+
+    /**
+     * @brief Apply pi0 mass cut.
+     * @details This function applies a cut on the invariant diphoton mass
+     * of the interactions two most energetic photons.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @return true if the interaction passes the pi0 mass cut.
+     */
+    template<class T>
+    bool valid_pi0_mass_cut(const T & obj, std::vector<double> params = {})
+    {
+        pi0 s = utilities::pi0_info(obj);
+	return (s.mass >= params[0] && s.mass < params[1]);
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, valid_pi0_mass_cut, valid_pi0_mass_cut);
+
 }
 #endif

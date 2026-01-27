@@ -118,7 +118,23 @@ namespace utilities
     three_vector normalize(const three_vector & a)
     {
         double mag = magnitude(a);
+        if (mag == 0)
+        {
+            return std::make_tuple(0.0, 0.0, 0.0);
+        }
         return std::make_tuple(std::get<0>(a)/mag, std::get<1>(a)/mag, std::get<2>(a)/mag);
+    }
+
+    /**
+     * @brief Scales a three-vector by a scalar factor.
+     * @details Each value of the three-vector is multiplied by the scalar factor.
+     * @param a the three-vector to calculate the magnitude of.
+     * @param b the scalar factor to scale the three-vector by.
+     * @return the scaled three-vector.
+     */
+    three_vector scale(const three_vector & a, const double & b)
+    {
+        return std::make_tuple(std::get<0>(a)*b, std::get<1>(a)*b, std::get<2>(a)*b);
     }
 
     /**

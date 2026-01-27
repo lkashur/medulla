@@ -523,6 +523,44 @@ namespace vars
     REGISTER_VAR_SCOPE(RegistrationScope::Both, dalphaT, dalphaT);
 
     /**
+     * @brief Variable for dalpha_T_arg of the interaction.
+     * @details dalpha_T is a transverse kinematic imbalance variable defined
+     * using the transverse momentum of the total hadronic system and the
+     * outgoing lepton. The neutrino direction is assumed to either be the BNB
+     * axis direction (z-axis) or the unit vector pointing from the NuMI target
+     * to the interaction vertex. See @ref utilities::transverse_momentum for
+     * details on the extraction of the transverse momentum. This version
+     * returns the argument of the arccosine used in the dalpha_T calculation.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to apply the variable on.
+     * @return the alpha_T of the interaction.
+     * @note The switch to the NuMI beam direction instead of the BNB axis is
+     * applied by the definition of a preprocessor macro (BEAM_IS_NUMI).
+     */
+    template<class T>
+    double dalphaT_arg(const T & obj)
+    {
+        utilities::three_vector lepton_pt = {0, 0, 0};
+        utilities::three_vector total_pt = {0, 0, 0};
+        for(const auto & p : obj.particles)
+        {
+            if(pcuts::final_state_signal(p))
+            {
+                // There should only be one lepton, so replace the lepton
+                // transverse momentum if the particle is a lepton.
+                utilities::three_vector momentum = {pvars::px(p), pvars::py(p), pvars::pz(p)};
+                utilities::three_vector vtx = {pvars::start_x(p), pvars::start_y(p), pvars::start_z(p)};
+                utilities::three_vector this_pt = utilities::transverse_momentum(momentum, vtx);
+                if(pvars::pid(p) == pvars::kElectron || pvars::pid(p) == pvars::kMuon)
+                    lepton_pt = this_pt;
+                total_pt = utilities::add(total_pt, this_pt);
+            }
+        }
+        return -1 * utilities::dot_product(total_pt, lepton_pt) / (utilities::magnitude(total_pt) * utilities::magnitude(lepton_pt));
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::Both, dalphaT_arg, dalphaT_arg);
+
+    /**
      * @brief Variable for the missing longitudinal momentum of the
      * interaction.
      * @details The missing longitudinal momentum is calculated as the
@@ -834,5 +872,56 @@ namespace vars
         return utilities::magnitude(utilities::subtract(muon_start, vtx));
     }
     REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_muon_vertex_gap, leading_muon_vertex_gap);
+
+    /**
+     * @brief Variable for enumerating interaction topologies.
+     * @details This variable provides a basic categorization of interactions
+     * using the following categories:
+     * 0: 1mu0pi1pi0 (in-phase, fiducial)
+     * 1: To-do...
+     * 2: To-do...
+     * 3: To-do...
+     * @param obj the interaction to apply the variable on.
+     * @return the enumerated topology of the interaction.
+     */
+    template<class T> 
+    double category_topology_ccpi0_simple2(const caf::SRInteractionTruthDLPProxy & obj, std::vector<double> params={})
+    {
+        double num_primary_photons_thresh = vars::photon_multiplicity(obj, {params[0]});
+	double num_primary_electrons_thresh = vars::electron_multiplicity(obj, {params[1]});
+	double num_primary_muons_thresh = vars::muon_multiplicity(obj, {params[2]});
+	double num_primary_pi0s_thresh = utilities::true_primary_pi0_multiplicity(obj, {params[3]});
+	double num_primary_pions_thresh = vars::pion_multiplicity(obj, {params[4]});
+	double num_primary_protons_thresh = vars::proton_multiplicity(obj, {params[5]});
+	
+	double num_nonprimary_pi0s = utilities::true_nonprimary_pi0_multiplicity(obj, {0});
+      
+	double num_primary_photons = vars::photon_multiplicity(obj, {0});
+	double num_primary_electrons = vars::electron_multiplicity(obj, {0});
+	double num_primary_muons = vars::muon_multiplicity(obj, {0});
+	double num_primary_pi0s = utilities::true_primary_pi0_multiplicity(obj, {0.0});
+	double num_primary_pions = vars::pion_multiplicity(obj, {0});
+	double num_primary_protons = vars::proton_multiplicity(obj, {0});
+
+        // Cosmic
+	uint16_t cat(10);
+
+	// Neutrino
+	if(cuts::neutrino(obj))
+	{
+	    // 1mu 0pi 1pi0 (in-phase, fiducial)
+	    if(obj.pdg_code == 14 && num_primary_muons_thresh == 1 && num_primary_pions_thresh == 0 && num_primary_pi0s_thresh == 1 && cuts::iscc(obj) && cuts::fiducial_cut(obj)) cat = 0;
+	    // 1mu 0pi (2+ pi0)
+	    else if(obj.pdg_code == 14 && num_primary_muons_thresh == 1 && num_primary_pions_thresh == 0 && num_primary_pi0s_thresh >= 2 && cuts::iscc(obj) && cuts::fiducial_cut(obj)) cat = 1;
+	    // 1mu Npi Xpi0
+	    else if(obj.pdg_code == 14 && num_primary_muons_thresh == 1 && num_primary_pions_thresh >= 1 && cuts::iscc(obj) && cuts::fiducial_cut(obj)) cat = 2;
+	    // 0mu Npi0
+	    else if(num_primary_muons_thresh == 0 && num_primary_pi0s_thresh >= 1 && !cuts::iscc(obj) && cuts::fiducial_cut(obj)) cat = 3;
+	    // Other nu
+	    else cat = 4;
+	}
+	return cat;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::True, category_topology_ccpi0_simple2, category_topology_ccpi0_simple2);
 }
 #endif // VARIABLES_H
