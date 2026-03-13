@@ -202,6 +202,21 @@ namespace selectors
     REGISTER_SELECTOR(leading_muon, leading_muon);
 
     /**
+     * @brief Finds the index corresponding to the leading muon.
+     * @details The leading muon is defined as the muon with the highest
+     * kinetic energy.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to operate on.
+     * @return the index of the leading muon (highest KE).
+     */
+    template<class T>
+    size_t muon(const T & obj)
+    {
+        return leading_particle_index(obj, pvars::kMuon);
+    }
+    REGISTER_SELECTOR(muon, muon);
+
+    /**
      * @brief Finds the index corresponding to the leading pion.
      * @details The leading pion is defined as the pion with the highest
      * kinetic energy.

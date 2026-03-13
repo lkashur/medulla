@@ -1,0 +1,427 @@
+[general]
+output = "icarus_bnb_ccpi0"
+primfn = "default_primary_classification"
+pidfn = "default_pid"
+
+###########
+### Nominal
+###########
+#calofn = "default_calo_ke"
+
+################################
+### Process CV and vars
+################################
+calofn = "postpi0adj_spineprod_250625_mc_calo_ke"
+
+################################
+### Process data
+################################
+#calofn = "postpi0adj_spineprod_250625_mc_calo_ke"
+
+fsthresh = [
+    "@reco_photon_threshold",
+    "@reco_electron_threshold",
+    "@reco_muon_threshold",
+    "@reco_pion_threshold",
+    "@reco_proton_threshold",
+]
+recopi0showerthresh = [
+    "@reco_photon_threshold",
+    "@reco_photon_threshold",
+]
+
+[parameters]
+true_photon_threshold = 0.0
+reco_photon_threshold = 25.0
+true_electron_threshold = 0.0
+reco_electron_threshold = 0.0
+true_muon_threshold = 143.425
+reco_muon_threshold = 143.425
+true_second_muon_threshold = 25.0
+reco_second_muon_threshold = 25.0
+true_pi0_threshold = 0.0
+reco_pi0_threshold = 0.0
+true_pion_threshold = 0.0
+reco_pion_threshold = 25.0
+true_proton_threshold = 0.0
+reco_proton_threshold = 0.0
+pi0_mass_veto_low = 60.0
+pi0_mass_veto_high = 300.0
+flash_low_t = -0.5
+flash_high_t = 1.6
+bnb_fom2_cut = 0.98
+
+[[sample]]
+name = "cv"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
+ismc = true
+disable = true
+
+# name cvfull if merging with cv
+[[sample]]
+name = "cvext"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "cvfull"
+#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/full/*.flat.root"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/[c-n]*/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var00"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var00/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var01"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var01/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var02"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var02/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var03m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03m/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var03p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03p/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var04"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var04/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var05"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var05/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var06"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var06/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var07"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var07/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var09m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09m/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var09p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09p/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var10m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10m/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var10p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10p/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var11"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var11/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var12m"
+path = "/pnfs/icarus/scratch/users/mueller/production/simulation/var12m/flat/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var12p"
+path = "/pnfs/icarus/scratch/users/mueller/production/simulation/var12p/flat/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var13m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13m/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var13p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13p/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "var99"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
+ismc = true
+disable = true
+
+[[sample]]
+name = "offbeam"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
+ismc = false
+disable = true
+
+[[sample]]
+name = "onbeam"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/onbeam/input*.flat.root"
+ismc = false
+disable = true
+
+[[tree]]
+name = "selected_nu"
+sim_only = false
+add_exposure = true
+mode = "reco"
+cut = [
+    {name = "fiducial_cut", type = "reco"},
+    {name = "avoid_icarus_mystery_zgap", type = "reco"},
+    {name = "flash_cut", type = "reco",  parameters = ["@flash_low_t", "@flash_high_t"]},
+    {name = "single_muon", type = "reco", parameters = ["@reco_muon_threshold"]},
+    {name = "single_muon_no_second_muon", type = "reco", parameters = ["@reco_muon_threshold", "@reco_second_muon_threshold"]},
+    {name = "no_charged_pions", type = "reco", parameters = ["@reco_pion_threshold"]},
+    {name = "two_photons", type = "reco", parameters = ["@reco_photon_threshold"]},
+    #{name = "valid_pi0_mass_cut", type = "reco", parameters = ["@pi0_mass_veto_low", "@pi0_mass_veto_high"]},
+    {name = "data_quality_cut", type = "event", decrements_exposure = true },
+    {name = "beam_quality_cut", type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
+    {name = "bnb_fom2_cut", type = "event", decrements_exposure = false, parameters = [ "@bnb_fom2_cut" ]}, # Should decrement exposure, but CAF files are bugged
+    {name = "neutrino", type = "true"}
+]
+branch = [
+
+    # MC Truth interaction info
+    {name = "pdg", type = "mctruth"},
+    {name = "baseline", type = "mctruth"},
+    {name = "cc", type = "mctruth"},
+    {name = "neutrino_energy", type = "mctruth"},
+    {name = "neutrino_Q2", type = "mctruth"},
+    {name = "neutrino_W", type = "mctruth"},
+    {name = "interaction_mode", type = "mctruth"},
+    {name = "interaction_type", type = "mctruth"},
+    {name = "category_topology_ccpi0_xsec1", type = "mctruth", parameters = ["@true_photon_threshold", "@true_electron_threshold", "@true_muon_threshold", "@true_pi0_threshold", "@true_pion_threshold", "@true_proton_threshold"]},
+    
+    # SPINE interaction info
+    {name = "neutrino_id", type = "true"},
+    {name = "containment_cut", type = "both"},
+    {name = "flash_time", type = "reco"},
+    {name = "visible_energy", type = "both"},
+    {name = "visible_energy_calosub", type = "both"},
+    {name = "Q2", type = "both"},
+    {name = "W", type = "both"},
+    {name = "W_calosub", type = "both"},
+    {name = "dpT", type = "both"},
+    {name = "dpL", type = "both"},
+    {name = "pn", type = "both"},
+    {name = "dphiT", type = "both"},
+    {name = "dalphaT", type = "both"},
+    {name = "vertex_x", type = "both"},
+    {name = "vertex_y", type = "both"},
+    {name = "vertex_z", type = "both"},
+    {name = "photon_multiplicity", type = "reco", parameters = ["@reco_photon_threshold"]},
+    {name = "electron_multiplicity", type = "reco", parameters = ["@reco_electron_threshold"]},
+    {name = "muon_multiplicity", type = "reco", parameters = ["@reco_muon_threshold"]},
+    {name = "pion_multiplicity", type = "reco", parameters = ["@reco_pion_threshold"]},
+    {name = "proton_multiplicity", type = "reco", parameters = ["@reco_proton_threshold"]},
+    {name = "photon_multiplicity", type = "true", parameters = ["@true_photon_threshold"]},
+    {name = "electron_multiplicity", type = "true", parameters = ["@true_electron_threshold"]},
+    {name = "muon_multiplicity", type = "true", parameters = ["@true_muon_threshold"]},
+    {name = "pion_multiplicity", type = "true", parameters = ["@true_pion_threshold"]},
+    {name = "proton_multiplicity", type = "true", parameters = ["@true_proton_threshold"]},
+    {name = "category_topology_calib", type = "true", parameters = ["@true_photon_threshold", "@true_electron_threshold", "@true_muon_threshold", "@true_pi0_threshold", "@true_pion_threshold", "@true_proton_threshold"]},
+
+    # Muon observables (G4 primary truth)
+    {name = "muon_momentum", type = "mctruth", parameters = ["@true_muon_threshold"]},
+    {name = "muon_beam_costheta", type = "mctruth", parameters = ["@true_muon_threshold"]},
+
+    # Muon observables (SPINE reco)
+    {name = "momentum", type = "reco_particle", selector = "muon"},
+    {name = "beam_costheta", type = "both_particle", selector = "muon"},
+
+    # Muon observables (SPINE reco and truth)
+    {name = "length", type = "both_particle", selector = "muon"},
+    {name = "ke", type = "both_particle", selector = "muon"},
+    
+    # Neutral pion observables (G4 primary truth)
+    {name = "pi0_momentum", type = "mctruth", parameters = ["@true_pi0_threshold"]},
+    {name = "pi0_beam_costheta", type = "mctruth", parameters = ["@true_pi0_beam_costheta"]},
+
+    # Neutral pion observables (SPINE reco)
+    {name = "pi0_momentum", type = "reco"},
+    {name = "pi0_beam_costheta", type = "reco"},
+
+    # Neutral pion observables (SPINE reco and truth)
+    {name = "pi0_mass", type = "both"},
+    {name = "pi0_showers_costheta", type = "both"},
+    {name = "pi0_leading_shower_conv_dist", type = "both"},
+    {name = "pi0_subleading_shower_conv_dist", type = "both"},
+
+    # Pion observables
+    {name = "ke", type = "both_particle", selector = "leading_pion"},
+
+    # Neutral pion observables (particle-level)
+    #{name = "id", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "match_id", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "pid", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "primary_classification", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "ke", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "start_x", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "start_y", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "start_z", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "id", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "match_id", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "pid", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "primary_classification", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "ke", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "start_x", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "start_y", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "start_z", type = "both_particle", selector = "pi0_subleading_shower"},
+
+    # GUNDAM
+    {name = "is_nu", type = "reco"},
+    {name = "is_data", type = "reco"},
+    {name = "cut_type", type = "reco"}
+]
+
+[[tree]]
+name = "selected_cos"
+sim_only = false
+add_exposure = true
+mode = "reco"
+cut = [
+    {name = "fiducial_cut", type = "reco"},
+    {name = "avoid_icarus_mystery_zgap", type = "reco"},
+    {name = "flash_cut", type = "reco",  parameters = ["@flash_low_t", "@flash_high_t"]},
+    {name = "single_muon", type = "reco", parameters = ["@reco_muon_threshold"]},
+    {name = "single_muon_no_second_muon", type = "reco", parameters = ["@reco_muon_threshold", "@reco_second_muon_threshold"]},
+    {name = "no_charged_pions", type = "reco", parameters = ["@reco_pion_threshold"]},
+    {name = "two_photons", type = "reco", parameters = ["@reco_photon_threshold"]},
+    #{name = "valid_pi0_mass_cut", type = "reco", parameters = ["@pi0_mass_veto_low", "@pi0_mass_veto_high"]},
+    {name = "data_quality_cut", type = "event", decrements_exposure = true },
+    {name = "beam_quality_cut", type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
+    {name = "bnb_fom2_cut", type = "event", decrements_exposure = false, parameters = [ "@bnb_fom2_cut" ]}, # Should decrement exposure, but CAF files are bugged
+    {name = "cosmic", type = "true"}
+]
+branch = [
+
+    # MC Truth interaction info
+    {name = "pdg", type = "mctruth"},
+    {name = "baseline", type = "mctruth"},
+    {name = "cc", type = "mctruth"},
+    {name = "neutrino_energy", type = "mctruth"},
+    {name = "neutrino_Q2", type = "mctruth"},
+    {name = "neutrino_W", type = "mctruth"},
+    {name = "interaction_mode", type = "mctruth"},
+    {name = "interaction_type", type = "mctruth"},
+    {name = "category_topology_ccpi0_xsec1", type = "mctruth", parameters = ["@true_photon_threshold", "@true_electron_threshold", "@true_muon_threshold", "@true_pi0_threshold", "@true_pion_threshold", "@true_proton_threshold"]},
+
+    # SPINE interaction info
+    {name = "neutrino_id", type = "true"},
+    {name = "containment_cut", type = "both"},
+    {name = "flash_time", type = "reco"},
+    {name = "visible_energy", type = "both"},
+    {name = "visible_energy_calosub", type = "both"},
+    {name = "Q2", type = "both"},
+    {name = "W", type = "both"},
+    {name = "W_calosub", type = "both"},
+    {name = "dpT", type = "both"},
+    {name = "dpL", type = "both"},
+    {name = "pn", type = "both"},
+    {name = "dphiT", type = "both"},
+    {name = "dalphaT", type = "both"},
+    {name = "vertex_x", type = "both"},
+    {name = "vertex_y", type = "both"},
+    {name = "vertex_z", type = "both"},
+    {name = "photon_multiplicity", type = "reco", parameters = ["@reco_photon_threshold"]},
+    {name = "electron_multiplicity", type = "reco", parameters = ["@reco_electron_threshold"]},
+    {name = "muon_multiplicity", type = "reco", parameters = ["@reco_muon_threshold"]},
+    {name = "pion_multiplicity", type = "reco", parameters = ["@reco_pion_threshold"]},
+    {name = "proton_multiplicity", type = "reco", parameters = ["@reco_proton_threshold"]},
+    {name = "photon_multiplicity", type = "true", parameters = ["@true_photon_threshold"]},
+    {name = "electron_multiplicity", type = "true", parameters = ["@true_electron_threshold"]},
+    {name = "muon_multiplicity", type = "true", parameters = ["@true_muon_threshold"]},
+    {name = "pion_multiplicity", type = "true", parameters = ["@true_pion_threshold"]},
+    {name = "proton_multiplicity", type = "true", parameters = ["@true_proton_threshold"]},
+    {name = "category_topology_calib", type = "true", parameters = ["@true_photon_threshold", "@true_electron_threshold", "@true_muon_threshold", "@true_pi0_threshold", "@true_pion_threshold", "@true_proton_threshold"]},
+
+    # Muon observables (G4 primary truth)
+    {name = "muon_momentum", type = "mctruth", parameters = ["@true_muon_threshold"]},
+    {name = "muon_beam_costheta", type = "mctruth", parameters = ["@true_muon_threshold"]},
+
+    # Muon observables (SPINE reco)
+    {name = "momentum", type = "reco_particle", selector = "muon"},
+    {name = "beam_costheta", type = "both_particle", selector = "muon"},
+
+    # Muon observables (SPINE reco and truth)
+    {name = "length", type = "both_particle", selector = "muon"},
+    {name = "ke", type = "both_particle", selector = "muon"},
+
+    # Neutral pion observables (G4 primary truth)
+    {name = "pi0_momentum", type = "mctruth", parameters = ["@true_pi0_threshold"]},
+    {name = "pi0_beam_costheta", type = "mctruth", parameters = ["@true_pi0_beam_costheta"]},
+
+    # Neutral pion observables (SPINE reco)
+    {name = "pi0_momentum", type = "reco"},
+    {name = "pi0_beam_costheta", type = "reco"},
+
+    # Neutral pion observables (SPINE reco and truth)
+    {name = "pi0_mass", type = "both"},
+    {name = "pi0_showers_costheta", type = "both"},
+    {name = "pi0_leading_shower_conv_dist", type = "both"},
+    {name = "pi0_subleading_shower_conv_dist", type = "both"},
+
+    # Pion observables
+    {name = "ke", type = "both_particle", selector = "leading_pion"},
+
+    # Neutral pion observables (particle-level)
+    #{name = "id", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "match_id", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "pid", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "primary_classification", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "ke", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "start_x", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "start_y", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "start_z", type = "both_particle", selector = "pi0_leading_shower"},
+    #{name = "id", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "match_id", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "pid", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "primary_classification", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "ke", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "start_x", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "start_y", type = "both_particle", selector = "pi0_subleading_shower"},
+    #{name = "start_z", type = "both_particle", selector = "pi0_subleading_shower"},
+
+    # GUNDAM
+    {name = "is_nu", type = "reco"},
+    {name = "is_data", type = "reco"},
+    {name = "cut_type", type = "reco"}
+
+]

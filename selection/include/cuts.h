@@ -187,6 +187,22 @@ namespace cuts
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, fiducial_cut, fiducial_cut);
 
+    /**
+     * @brief Apply a cut on the interaction vertex to avoid mystery pi0 z-gap.
+     * @details Photons from pi0s are seen to vanish in the region defined by
+     * -20 < z < 80.  This cut eliminates this region so we can cleanly adjust our
+     * fiducial number of targets calculation for all samples.
+     * @tparam T the type o interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @return true if the vertex is not in the z-gap.
+     */
+    template<class T>
+    bool avoid_icarus_mystery_zgap(const T & obj)
+    {
+        return !(obj.vertex[2] > -100 && obj.vertex[2] < 100);
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, avoid_icarus_mystery_zgap, avoid_icarus_mystery_zgap);
+
     template<class T>
     bool fiducial_cut_tmp(const T & obj)
     {
@@ -396,6 +412,55 @@ namespace cuts
         return particle_multiplicity(obj, 1, 2, params) == 1;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_muon, single_muon);
+
+    /**
+     * @brief Binding for a single muon multiplicity at a given threshold
+     * and zero muons at a second threshold
+     * @details This function binds the single particle (threshold A) and
+     * zero particle (threshold B) multiplicity cuts for muons, which
+     * correspond to the index 2 in the
+     * @ref utilities::count_primaries function
+     * @param params the parameters for the cut.  In this case, parameter A
+     * sets the kinetic energy threshold for the inclusion of the first muon,
+     * while parameter B sets the kinetic energy threshold for the inclusion
+     * of the second muon.
+     * @return true if the interaction has a single primary muon (above threshold A)
+     * and zero additional muons (above threshold B).
+     */
+    template<class T>
+    bool single_muon_no_second_muon(const T & obj, std::vector<double> params={143.425, 25.0})
+    {
+
+        // Single muon above threshold A                                                        
+        size_t count_mu_a(0);
+        size_t index_mu_a(0);
+        for(size_t i(0); i < obj.particles.size(); ++i)
+	{
+            const auto & p = obj.particles[i];
+            if(pvars::pid(p) == 2 && pvars::primary_classification(p) && pvars::ke(p) >= params[0])
+	    {
+                ++count_mu_a;
+                index_mu_a = i;
+	    }
+
+	}
+
+        // No additional muon above threshold B                    
+        size_t count_mu_b(0);
+        for(size_t j(0); j < obj.particles.size(); ++j)
+	{
+            const auto & p = obj.particles[j];
+
+            // Looking for second muon, so exclude first muon that was found                                                            
+            if(j == index_mu_a) continue;
+
+            if(pvars::pid(p) == 2 && pvars::primary_classification(p) && pvars::ke(p) >= params[1])
+              ++count_mu_b;
+	}
+
+        return ( (count_mu_a == 1) && (count_mu_b == 0) );
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, single_muon_no_second_muon, single_muon_no_second_muon);
 
     /**
      * @brief Binding for a single particle pion multiplicity cut.

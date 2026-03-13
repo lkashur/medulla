@@ -21,7 +21,9 @@
 #include "framework.h"
 #include "scorers.h"
 #include "cuts.h"
+#include "pi0ana/cuts_pi0ana.h"
 #include "variables.h"
+#include "pi0ana/variables_pi0ana.h"
 #include "mctruth.h"
 #include "event_cuts.h"
 #include "event_variables.h"
@@ -31,6 +33,7 @@
 
 std::shared_ptr<VarFn<RParticleType>> pvars::primfn = std::make_shared<VarFn<RParticleType>>(pvars::default_primary_classification<RParticleType>);
 std::shared_ptr<VarFn<RParticleType>> pvars::pidfn = std::make_shared<VarFn<RParticleType>>(pvars::default_pid<RParticleType>);
+std::shared_ptr<VarFn<RParticleType>> pvars::calofn = std::make_shared<VarFn<RParticleType>>(pvars::default_calo_ke<RParticleType>);
 
 /**
  * @brief Set a function pointer for a variable function.
@@ -111,6 +114,16 @@ int main(int argc, char * argv[])
             pcuts::final_state_signal_thresholds = fsthresh;
         }
 
+	// Construct the neutral pion shower threshold function
+	if(config.has_field("general.recopi0showerthresh"))
+	{
+	    // Retrieve the threshold for neutral pion shower reconstruction. 
+	    std::vector<double> recopi0showerthresh = config.get_double_vector("general.recopi0showerthresh");
+
+	    // Set the global vectors for neutral pion shower reconstuction thresholds.
+	    utilities_pi0ana::reco_pi0_shower_thresholds = recopi0showerthresh;
+	}
+
         // Construct the category function.
         if(config.has_field("category"))
         {
@@ -186,6 +199,9 @@ int main(int argc, char * argv[])
         // Set the PID functions.
         set_fcn(pvars::primfn, config.get_string_field("general.primfn", "default_primary_classification"));
         set_fcn(pvars::pidfn, config.get_string_field("general.pidfn", "default_pid"));
+
+	// Set the calo_ke function.
+	set_fcn(pvars::calofn, config.get_string_field("general.calofn", "default_calo_ke"));
 
         // Configure the samples in the analysis
         std::vector<cfg::ConfigurationTable> samples = config.get_subtables("sample");

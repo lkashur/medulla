@@ -19,6 +19,8 @@
 #define SBND_ZMIN  4.94238
 #define SBND_ZMAX  504.458
 
+#include <TVector3.h>
+
 namespace utilities
 {
     /**
