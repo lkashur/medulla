@@ -227,6 +227,13 @@ branch = [
     {name = "neutrino_W", type = "mctruth"},
     {name = "interaction_mode", type = "mctruth"},
     {name = "interaction_type", type = "mctruth"},
+    {name = "nphotons_srtruth", type="mctruth", parameters = ["@true_photon_threshold"]},
+    {name = "nelectrons_srtruth", type="mctruth", parameters = ["@true_electron_threshold"]},
+    {name = "nmuons_srtruth", type="mctruth", parameters = ["@true_muon_threshold"]},
+    {name = "npi0s_srtruth", type="mctruth", parameters = ["@true_pi0_threshold"]},
+    {name = "npions_srtruth", type="mctruth", parameters = ["@true_pion_threshold"]},
+    {name = "netas_srtruth", type="mctruth"},
+    {name = "nprotons_srtruth", type="mctruth", parameters = ["@true_proton_threshold"]},
     {name = "category_topology_ccpi0_xsec1", type = "mctruth", parameters = ["@true_photon_threshold", "@true_electron_threshold", "@true_muon_threshold", "@true_pi0_threshold", "@true_pion_threshold", "@true_proton_threshold"]},
     
     # SPINE interaction info
@@ -280,6 +287,7 @@ branch = [
 
     # Neutral pion observables (SPINE reco and truth)
     {name = "pi0_mass", type = "both"},
+    {name = "mass_max", type = "both"},
     {name = "pi0_showers_costheta", type = "both"},
     {name = "pi0_leading_shower_conv_dist", type = "both"},
     {name = "pi0_subleading_shower_conv_dist", type = "both"},
@@ -341,6 +349,13 @@ branch = [
     {name = "neutrino_W", type = "mctruth"},
     {name = "interaction_mode", type = "mctruth"},
     {name = "interaction_type", type = "mctruth"},
+    {name = "nphotons_srtruth", type="mctruth", parameters = ["@true_photon_threshold"]},
+    {name = "nelectrons_srtruth", type="mctruth", parameters = ["@true_electron_threshold"]},
+    {name = "nmuons_srtruth", type="mctruth", parameters = ["@true_muon_threshold"]},
+    {name = "npi0s_srtruth", type="mctruth", parameters = ["@true_pi0_threshold"]},
+    {name = "npions_srtruth", type="mctruth", parameters = ["@true_pion_threshold"]},
+    {name = "netas_srtruth", type="mctruth"},
+    {name = "nprotons_srtruth", type="mctruth", parameters = ["@true_proton_threshold"]},
     {name = "category_topology_ccpi0_xsec1", type = "mctruth", parameters = ["@true_photon_threshold", "@true_electron_threshold", "@true_muon_threshold", "@true_pi0_threshold", "@true_pion_threshold", "@true_proton_threshold"]},
 
     # SPINE interaction info
@@ -394,6 +409,7 @@ branch = [
 
     # Neutral pion observables (SPINE reco and truth)
     {name = "pi0_mass", type = "both"},
+    {name = "mass_max", type = "both"},
     {name = "pi0_showers_costheta", type = "both"},
     {name = "pi0_leading_shower_conv_dist", type = "both"},
     {name = "pi0_subleading_shower_conv_dist", type = "both"},

@@ -451,6 +451,22 @@ namespace vars::pi0ana
     REGISTER_VAR_SCOPE(RegistrationScope::Both, pi0_mass, pi0_mass);
 
     /**
+     * @brief Variable for maximum allowed mass given two photons.
+     * @details Variable for maximum allowed mass given two photons, as calculated
+     * with photon energies and opening angle.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to apply the variable on.
+     * @return the maximum allowed mass in MeV/c^2.
+     */
+    template<class T>
+    double mass_max(const T & obj)
+    {
+        pi0 s = utilities_pi0ana::pi0_info(obj);
+        return s.mass_max;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::Both, mass_max, mass_max);
+
+    /**
      * @brief Variable for neutral pion total energy.
      * @details Variable for neutral pion total energy, as calculated
      * with energies of neutral pion daughter particles.

@@ -32,6 +32,7 @@ struct pi0 {
   double subleading_shower_conv_dist;
   double showers_costheta;
   double mass;
+  double mass_max;
   double energy;
   double momentum;
   double beam_costheta;
@@ -167,6 +168,7 @@ namespace utilities_pi0ana
         double subleading_shower_conv_dist(-5);
 	double showers_costheta(-5);
 	double mass(-5);
+	double mass_max(-5);
 	double energy(-5);
 
 	/**
@@ -263,6 +265,7 @@ namespace utilities_pi0ana
 				*/
 			       showers_costheta = leading_shower_dir.Dot(subleading_shower_dir);
 			       mass = sqrt(2*leading_shower_ke*subleading_shower_ke*(1-showers_costheta));
+			       mass_max = (leading_shower_ke + subleading_shower_ke)*sqrt((1 - showers_costheta)/2);
 			       energy = leading_shower_ke + subleading_shower_ke;
 			       vertex_x = leading_shower.parent_position[0];
 			       vertex_y = leading_shower.parent_position[1];
@@ -288,6 +291,7 @@ namespace utilities_pi0ana
                            s.subleading_shower_conv_dist = subleading_shower_conv_dist;
 			   s.showers_costheta = showers_costheta;
 			   s.mass = mass;
+			   s.mass_max = mass_max;
 			   s.energy = energy/1000.0;
 		       }
 	
@@ -402,6 +406,7 @@ namespace utilities_pi0ana
 		 */
 		showers_costheta = leading_shower_dir.Dot(subleading_shower_dir);
 		mass = sqrt(2*leading_shower_ke*subleading_shower_ke*(1-showers_costheta));
+		mass_max = (leading_shower_ke + subleading_shower_ke)*sqrt((1 - showers_costheta)/2);
 		energy = leading_shower_ke + subleading_shower_ke;
 		momentum = leading_shower_momentum + subleading_shower_momentum;
 		beam_costheta = momentum.Unit().Dot(beamdir);
@@ -422,6 +427,7 @@ namespace utilities_pi0ana
 		s.subleading_shower_conv_dist = subleading_shower_conv_dist;
 		s.showers_costheta = showers_costheta;
 		s.mass = mass;
+		s.mass_max = mass_max;
 		s.energy = energy/1000.0;
 	    }
 	    else
@@ -439,6 +445,7 @@ namespace utilities_pi0ana
 		s.subleading_shower_conv_dist = -5;
 		s.showers_costheta = -5;
 		s.mass = -5;
+		s.mass_max = -5;
 		s.energy = -5;
 	    }
 	}

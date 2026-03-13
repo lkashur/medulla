@@ -310,6 +310,35 @@ namespace mctruth
     REGISTER_VAR_SCOPE(RegistrationScope::MCTruth, npions_srtruth, npions_srtruth);
 
     /**
+     * @brief Variable for the number of true final state etas in the interaction.
+     * @details Variable for the number of true primary pions in each SRTrueInteraction.
+     * @tparam T the type of object to apply the variable on.
+     * @param obj the SRTrueInteraction to apply the variable on.
+     * @return the number of true final state etas in the interaction.
+     */
+    template<typename T>
+    double netas_srtruth(const T & obj, std::vector<double> params={0.0,})
+    {
+        int num_etas(0);
+
+        // Loop over primary particles 
+        for(const auto & p : obj.prim)
+	{
+            // Check pion pdg_code
+            if(abs(p.pdg) == 221)
+	      {
+                // Check KE threshold
+                double ke(-5);
+                ke = 1000. * (p.genE - (547.862/1000.)); // MeV
+                if(ke >= params[0])
+                  num_etas++;
+	      }
+	  }
+        return num_etas;
+      }
+    REGISTER_VAR_SCOPE(RegistrationScope::MCTruth, netas_srtruth, netas_srtruth);
+
+    /**
      * @brief Variable for the number of true final state protons in the interaction.
      * @details Variable for the number of true primary protons in each SRTrueInteraction.
      * @tparam T the type of object to apply the variable on.
