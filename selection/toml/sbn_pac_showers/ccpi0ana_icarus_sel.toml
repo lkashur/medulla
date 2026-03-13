@@ -49,7 +49,7 @@ pi0_mass_veto_low = 60.0
 pi0_mass_veto_high = 300.0
 flash_low_t = -0.5
 flash_high_t = 1.6
-bnb_fom2_cut = 0.98
+bnb_fom_cut = 0.98
 
 [[sample]]
 name = "cv"
@@ -213,7 +213,7 @@ cut = [
     #{name = "valid_pi0_mass_cut", type = "reco", parameters = ["@pi0_mass_veto_low", "@pi0_mass_veto_high"]},
     {name = "data_quality_cut", type = "event", decrements_exposure = true },
     {name = "beam_quality_cut", type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
-    {name = "bnb_fom2_cut", type = "event", decrements_exposure = false, parameters = [ "@bnb_fom2_cut" ]}, # Should decrement exposure, but CAF files are bugged
+    {name = "bnb_fom_cut", type = "event", decrements_exposure = false, parameters = [ "@bnb_fom_cut" ]}, # Should decrement exposure, but CAF files are bugged
     {name = "neutrino", type = "true"}
 ]
 branch = [
@@ -235,9 +235,9 @@ branch = [
     {name = "flash_time", type = "reco"},
     {name = "visible_energy", type = "both"},
     {name = "visible_energy_calosub", type = "both"},
-    {name = "Q2", type = "both"},
-    {name = "W", type = "both"},
-    {name = "W_calosub", type = "both"},
+    #{name = "Q2", type = "both"},
+    #{name = "W", type = "both"},
+    #{name = "W_calosub", type = "both"},
     {name = "dpT", type = "both"},
     {name = "dpL", type = "both"},
     {name = "pn", type = "both"},
@@ -272,7 +272,7 @@ branch = [
     
     # Neutral pion observables (G4 primary truth)
     {name = "pi0_momentum", type = "mctruth", parameters = ["@true_pi0_threshold"]},
-    {name = "pi0_beam_costheta", type = "mctruth", parameters = ["@true_pi0_beam_costheta"]},
+    {name = "pi0_beam_costheta", type = "mctruth", parameters = ["@true_pi0_threshold"]},
 
     # Neutral pion observables (SPINE reco)
     {name = "pi0_momentum", type = "reco"},
@@ -327,7 +327,7 @@ cut = [
     #{name = "valid_pi0_mass_cut", type = "reco", parameters = ["@pi0_mass_veto_low", "@pi0_mass_veto_high"]},
     {name = "data_quality_cut", type = "event", decrements_exposure = true },
     {name = "beam_quality_cut", type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
-    {name = "bnb_fom2_cut", type = "event", decrements_exposure = false, parameters = [ "@bnb_fom2_cut" ]}, # Should decrement exposure, but CAF files are bugged
+    {name = "bnb_fom_cut", type = "event", decrements_exposure = false, parameters = [ "@bnb_fom_cut" ]}, # Should decrement exposure, but CAF files are bugged
     {name = "cosmic", type = "true"}
 ]
 branch = [
@@ -349,9 +349,9 @@ branch = [
     {name = "flash_time", type = "reco"},
     {name = "visible_energy", type = "both"},
     {name = "visible_energy_calosub", type = "both"},
-    {name = "Q2", type = "both"},
-    {name = "W", type = "both"},
-    {name = "W_calosub", type = "both"},
+    #{name = "Q2", type = "both"},
+    #{name = "W", type = "both"},
+    #{name = "W_calosub", type = "both"},
     {name = "dpT", type = "both"},
     {name = "dpL", type = "both"},
     {name = "pn", type = "both"},
@@ -386,7 +386,7 @@ branch = [
 
     # Neutral pion observables (G4 primary truth)
     {name = "pi0_momentum", type = "mctruth", parameters = ["@true_pi0_threshold"]},
-    {name = "pi0_beam_costheta", type = "mctruth", parameters = ["@true_pi0_beam_costheta"]},
+    {name = "pi0_beam_costheta", type = "mctruth", parameters = ["@true_pi0_threshold"]},
 
     # Neutral pion observables (SPINE reco)
     {name = "pi0_momentum", type = "reco"},
