@@ -434,6 +434,38 @@ namespace vars::pi0ana
     REGISTER_VAR_SCOPE(RegistrationScope::Both, pi0_showers_costheta, pi0_showers_costheta);
 
     /**
+     * @brief Variable for pi0 leading photon energy.
+     * @details Variable for pi0 leading photon energy
+     * as calculated with calorimetric energy reconstruction.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to apply the variable on.
+     * @return the pi0 leading photon energy in MeV.
+     */
+    template<class T>
+      double pi0_leading_shower_ke(const T & obj)
+      {
+        pi0 s = utilities_pi0ana::pi0_info(obj);
+        return s.leading_shower_ke;
+      }
+    REGISTER_VAR_SCOPE(RegistrationScope::Both, pi0_leading_shower_ke, pi0_leading_shower_ke);
+
+    /**
+     * @brief Variable for pi0 subleading photon energy.
+     * @details Variable for pi0 subleading photon energy
+     * as calculated with calorimetric energy reconstruction.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to apply the variable on.
+     * @return the pi0 subleading photon energy in MeV.
+     */
+    template<class T>
+      double pi0_subleading_shower_ke(const T & obj)
+      {
+        pi0 s = utilities_pi0ana::pi0_info(obj);
+        return s.subleading_shower_ke;
+      }
+    REGISTER_VAR_SCOPE(RegistrationScope::Both, pi0_subleading_shower_ke, pi0_subleading_shower_ke);
+
+    /**
      * @brief Variable for neutral pion mass.
      * @details Variable for neutral pion mass, as calculated
      * with photon energies and opening angle.
