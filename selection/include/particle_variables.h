@@ -189,8 +189,6 @@ namespace pvars
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, csda_ke, csda_ke);
 
-    csda_ke_pion_hypothesis;
-
     /**
      * @brief Variable for the CSDA kinetic energy of the particle under
      * a pion hypothesis.
@@ -211,6 +209,7 @@ namespace pvars
 	  return PLACEHOLDER;
 	return p.csda_ke_per_pid[3];
     }
+    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, csda_ke_pion_hypothesis, csda_ke_pion_hypothesis);
 
     /**
      * @brief Variable for the MCS kinetic energy of the particle.
