@@ -206,7 +206,7 @@ namespace pvars
     {
         double pidx(pvars::pid(p));
 	if(pidx < 0 || std::isinf(p.csda_ke_per_pid[pidx]))
-	  return PLACEHOLDER;
+	  return PLACEHOLDERVALUE;
 	return p.csda_ke_per_pid[3];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, csda_ke_pion_hypothesis, csda_ke_pion_hypothesis);
