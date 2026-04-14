@@ -189,6 +189,29 @@ namespace pvars
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, csda_ke, csda_ke);
 
+    csda_ke_pion_hypothesis;
+
+    /**
+     * @brief Variable for the CSDA kinetic energy of the particle under
+     * a pion hypothesis.
+     * @details The CSDA kinetic energy is calculated upstream in the SPINE
+     * reconstruction by relating the length of the track to the energy loss
+     * of the particle.
+     * @tparam T the type o particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the CSDA kinetic energy of the particle.
+     * @note This function is only valid for particles which are contained in
+     * the detector
+     */
+    template<class T>
+    double csda_ke_pion_hypothesis(const T & p)
+    {
+        double pidx(pvars::pid(p));
+	if(pidx < 0 || std::isinf(p.csda_ke_per_pid[pidx]))
+	  return PLACEHOLDER;
+	return p.csda_ke_per_pid[3];
+    }
+
     /**
      * @brief Variable for the MCS kinetic energy of the particle.
      * @details The MCS kinetic energy is calculated upstream in the SPINE
