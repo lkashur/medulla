@@ -596,5 +596,36 @@ namespace mctruth
     }
     REGISTER_VAR_SCOPE(RegistrationScope::MCTruth, pi0_beam_costheta, pi0_beam_costheta);
 
+    template<typename T>
+    double leading_pion_g4_end_process(const T & obj, std::vector<double> params={0.0,})
+    {
+      
+        int num_pions = npions_srtruth(obj, params);
+        double max_ke(-99999);
+	double max_ke_g4_end_process(-99999);
+
+	if(num_pions > 0)
+	{
+	    for(const auto & p : obj.prim)
+	    {
+
+	        // Check pion pdg_code
+	        if(abs(p.pdg) == 211)
+		{
+	      
+		    double ke = 1000. * (p.genE - (PION_MASS/1000.)); // MeV
+		    if(ke > max_ke)
+		    {
+		        max_ke = ke;
+			max_ke_g4_end_process = p.end_process;
+		    }
+		}
+
+	    }
+	}
+	return max_ke_g4_end_process;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::MCTruth, leading_pion_g4_end_process, leading_pion_g4_end_process);
+
 } // namespace mctruth
 #endif
