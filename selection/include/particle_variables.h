@@ -33,6 +33,40 @@
  */
 namespace pvars
 {
+
+  /**
+   * @brief Variable for the particle's ID.                                                                                                                                                              
+   * @details This variable returns the particle's ID                                                                                                                                                    
+   * and is unique within a given interaction.                                                                                                                                                           
+   * @tparam T the type of particle (true or reco).                                                                                                                                                      
+   * @param p the particle to apply the variable on.                                                                                                                                                     
+   * @return the particle ID.                                                                                                                                                                            
+   */
+    template<class T>
+    double id(const T & p)
+    {
+        return p.id;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, id, id);
+
+    /**
+     * @brief Variable for particle's matched ID.
+     * @details This variable returns the particle's matched ID,
+     * as determined upstream in SPINE post-processor.
+     * tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the particle match ID.
+     */
+    template<class T>
+    double match_id(const T & p)
+    {
+        if(p.match_ids.size() > 0)
+	  return p.match_ids[0];
+	else
+	  return PLACEHOLDERVALUE;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, match_id, match_id);
+
     /**
      * @brief Variable for the particle's primary classification.
      * @details This variable returns the primary classification of the particle.
