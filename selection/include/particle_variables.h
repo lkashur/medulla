@@ -49,6 +49,13 @@ namespace pvars
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, id, id);
 
+    template<class T>
+    double interaction_id(const T & p)
+    {
+	return p.interaction_id;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, interaction_id, interaction_id);
+
     /**
      * @brief Variable for particle's matched ID.
      * @details This variable returns the particle's matched ID,
