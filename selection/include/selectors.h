@@ -58,6 +58,25 @@ namespace selectors
         return index;
     }
 
+    template <class T>
+    size_t leading_primary_particle_index(const T & obj, uint16_t pid)
+    {
+        double leading_ke(0);
+	size_t index(kNoMatch);
+	for(size_t i(0); i < obj.particles.size(); ++i)
+	{
+	    const auto & p = obj.particles[i];
+	    double energy(pvars::ke(p));
+	    if(pvars::pid(p) == pid && pvars::primary_classification(p) == 1 && energy > leading_ke)
+	    {
+	        leading_ke = energy;
+		index = i;
+	    }
+	}
+	return index;
+    }
+
+
     /**
      * @brief Finds the index corresponding to the longest track.
      * @details The longest track is defined as the track with the longest
@@ -210,11 +229,18 @@ namespace selectors
      * @return the index of the leading muon (highest KE).
      */
     template<class T>
-    size_t muon(const T & obj)
+    size_t leading_primary_muon(const T & obj)
     {
-        return leading_particle_index(obj, pvars::kMuon);
+        return leading_primary_particle_index(obj, pvars::kMuon);
     }
-    REGISTER_SELECTOR(muon, muon);
+    REGISTER_SELECTOR(leading_primary_muon, leading_primary_muon);
+
+    template<class T>
+    size_t leading_primary_pion(const T & obj)
+    {
+        return leading_primary_particle_index(obj, pvars::kPion);
+    }
+    REGISTER_SELECTOR(leading_primary_pion, leading_primary_pion);
 
     /**
      * @brief Finds the index corresponding to the leading pion.
