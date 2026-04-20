@@ -14,6 +14,7 @@
 #define MUON_MASS 105.6583745
 #define PION_MASS 139.57039
 #define PROTON_MASS 938.2720813
+#define NUCLEON_MASS 938.9187473
 
 #include "sbnanaobj/StandardRecord/Proxy/SRProxy.h"
 #include "sbnanaobj/StandardRecord/SRInteractionDLP.h"
