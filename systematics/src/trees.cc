@@ -65,13 +65,36 @@ void sys::trees::copy_tree(cfg::ConfigurationTable & table, TFile * output, TFil
      * separate variables to store the values of the int branches.
      */
     TTree * input_tree = (TTree *) input->Get(table.get_string_field("origin").c_str());
+    //int run, subrun, event;
+    //double br[input_tree->GetNbranches()-3];
+    //for (int i = 0; i < input_tree->GetNbranches()-3; i++)
+    //    input_tree->SetBranchAddress(input_tree->GetListOfBranches()->At(i)->GetName(), br+i);
+    //input_tree->SetBranchAddress("Run", &run);
+    //input_tree->SetBranchAddress("Subrun", &subrun);
+    //input_tree->SetBranchAddress("Evt", &event);
+
+
+    // Test
+    TObjArray* branches = input_tree->GetListOfBranches(); 
     int run, subrun, event;
     double br[input_tree->GetNbranches()-3];
-    for (int i = 0; i < input_tree->GetNbranches()-3; i++)
-        input_tree->SetBranchAddress(input_tree->GetListOfBranches()->At(i)->GetName(), br+i);
+    int temp_i(0);
+    for (int i = 0; i < input_tree->GetNbranches(); i++)
+    {
+	TBranch* branch = static_cast<TBranch*>(branches->At(i));
+	const std::string branchName = branch->GetName();
+
+	if(branchName != "Run" && branchName != "Subrun" && branchName != "Evt")
+	{   
+	    input_tree->SetBranchAddress(branch->GetName(), br+temp_i);
+	    temp_i++;
+	}
+    }
     input_tree->SetBranchAddress("Run", &run);
     input_tree->SetBranchAddress("Subrun", &subrun);
     input_tree->SetBranchAddress("Evt", &event);
+    // end test
+    
 
     /**
      * @brief Create the branches in the output TTree following the same
@@ -82,11 +105,29 @@ void sys::trees::copy_tree(cfg::ConfigurationTable & table, TFile * output, TFil
      * the input TTree. This process streamlines the copying of the values
      * from the input TTree to the output TTree.
      */
-    for (int i = 0; i < input_tree->GetNbranches()-3; i++)
-        output_tree->Branch(input_tree->GetListOfBranches()->At(i)->GetName(), br+i);
+    //for (int i = 0; i < input_tree->GetNbranches()-3; i++)
+    //    output_tree->Branch(input_tree->GetListOfBranches()->At(i)->GetName(), br+i);
+    //output_tree->Branch("Run", &run);
+    //output_tree->Branch("Subrun", &subrun);
+    //output_tree->Branch("Evt", &event);
+
+    // Test
+    temp_i = 0;
+    for (int i = 0; i < input_tree->GetNbranches(); i++)
+    {
+	TBranch* branch = static_cast<TBranch*>(branches->At(i));
+	const std::string branchName = branch->GetName();
+
+	if(branchName != "Run" && branchName != "Subrun" && branchName != "Evt")
+	{
+	    output_tree->Branch(branch->GetName(), br+temp_i);
+	    temp_i++;
+	}
+    }
     output_tree->Branch("Run", &run);
     output_tree->Branch("Subrun", &subrun);
     output_tree->Branch("Evt", &event);
+    // end test
 
     /**
      * @brief Loop over the input TTree and copy the values to the output
@@ -145,13 +186,16 @@ void sys::trees::copy_with_weight_systematics(cfg::ConfigurationTable & config, 
     std::map<std::string, double> brs;
     double nu_id;
     Int_t run, subrun, event;
-    for(int i(0); i < input_tree->GetNbranches()-3; ++i)
+    //for(int i(0); i < input_tree->GetNbranches()-3; ++i)
+    for (int i = 0; i < input_tree->GetNbranches(); i++) // Test
     {
         std::string brname = input_tree->GetListOfBranches()->At(i)->GetName();
         
         // We explicitly handle this branch, so we skip it in this loop.
-        if(brname == "true_neutrino_id")
-            continue;
+        //if(brname == "true_neutrino_id")
+	// Test
+	if(brname != "Run" && brname != "Subrun" && brname != "Evt" && brname != "true_neutrino_id")
+	  continue;
 
         // Initialize the branch value to 0 and set the branch address.
         brs[brname] = 0;
@@ -161,7 +205,6 @@ void sys::trees::copy_with_weight_systematics(cfg::ConfigurationTable & config, 
     input_tree->SetBranchAddress("Run", &run);
     input_tree->SetBranchAddress("Subrun", &subrun);
     input_tree->SetBranchAddress("Evt", &event);
-
 
     /**
      * @brief Create the output TTree with the name specified in the

@@ -242,6 +242,9 @@ void copy_with_syst(cfg::ConfigurationTable config, cfg::ConfigurationTable tabl
   // Specify morph knobs as these are handled differently
   std::vector<std::string> morph_branch_names = {"GENIEReWeight_SBN_v1_multisigma_VecFFCCQEshape", "GENIEReWeight_SBN_v1_multisigma_DecayAngMEC", "GENIEReWeight_SBN_v1_multisigma_Theta_Delta2Npi", "GENIEReWeight_SBN_v1_multisigma_ThetaDelta2NRad"};
 
+  // FSI NuSyst knobs are also handled differently
+  std::vector<std::string> fsi_nusyst_branch_names = {"FSIReweight_SBNNuSyst_FSI_hNReweight_multisigma_FSIReweight", "FSIReweight_SBNNuSyst_FSI_INCLReweight_multisigma_FSIReweight", "FSIReweight_SBNNuSyst_FSI_G4BCReweight_multisigma_FSIReweight"};
+
   // Initialize TClonesArray 
   TClonesArray *arrSyst[num_syst_branches];
 
@@ -312,7 +315,7 @@ void copy_with_syst(cfg::ConfigurationTable config, cfg::ConfigurationTable tabl
           }
 
 	// weight = 1 for nsigma = 0
-	if(!strcmp(syst_type.c_str(), "multisigma"))
+	if(!strcmp(syst_type.c_str(), "multisigma") && std::find(fsi_nusyst_branch_names.begin(), fsi_nusyst_branch_names.end(), name) == fsi_nusyst_branch_names.end())
 	  {
 	    nsigmas.push_back(0);
 	    if(table.get_bool_field("is_nu") == false)
