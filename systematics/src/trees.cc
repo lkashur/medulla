@@ -192,9 +192,9 @@ void sys::trees::copy_with_weight_systematics(cfg::ConfigurationTable & config, 
         std::string brname = input_tree->GetListOfBranches()->At(i)->GetName();
         
         // We explicitly handle this branch, so we skip it in this loop.
-        //if(brname == "true_neutrino_id")
+        //if(brname == "true_neutrino_id")e
 	// Test
-	if(brname != "Run" && brname != "Subrun" && brname != "Evt" && brname != "true_neutrino_id")
+        if(brname == "Run" || brname == "Subrun" || brname == "Evt" || brname == "true_neutrino_id")
 	  continue;
 
         // Initialize the branch value to 0 and set the branch address.
