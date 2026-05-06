@@ -10,7 +10,7 @@
 
 # Initialize variables
 PROJECT=""
-TAG="dev1"
+TAG="feature/dev1"
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
