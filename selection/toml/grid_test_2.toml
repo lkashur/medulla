@@ -1,0 +1,57 @@
+[general]
+output = "/pnfs/sbnd/scratch/users/rlazur/MCP2025B/ccpi0/pot_5e18/grid/test/output"
+calofn = "default_calo_ke"
+primfn = "default_primary_classification"
+pidfn = "default_pid"
+fsthresh = [
+    "@photon_threshold",
+    "@electron_threshold",
+    "@muon_threshold",
+    "@pion_threshold",
+    "@proton_threshold",
+]
+
+[parameters]
+photon_threshold = 20.0
+electron_threshold = 0.0
+muon_threshold = 143.425
+pi0_threshold = 0.0
+pion_threshold = 25.0
+proton_threshold = 0.0
+leading_photon_threshold = 40.0
+pi0_mass_veto_low = 0.0
+pi0_mass_veto_high = 400.0
+flash_low_t = -0.5
+flash_high_t = 1.6
+bnb_fom2_cut = 0.98
+
+##################################################################################
+
+[[sample]]
+name = "mc"
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc1e20/input001-reweighted.flat.caf.root"   # 1 file
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc5e18/input0*1-reweighted.flat.caf.root"   # 2 files
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc1e20/input00*-reweighted.flat.caf.root"   # 10 files
+path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc5e18/input*-reweighted.flat.caf.root"     # 20 files
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc1e20/input*-reweighted.flat.caf.root"     # 799 files
+ismc = true
+disable = false
+
+[[sample]]
+name = "onbeam"
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/data/devsample/input000.flat.root"     # test
+path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/data/devsample/*.flat.root"        # all
+ismc = false
+disable = true
+
+[[sample]]
+name = "offbeam"
+path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/data/offbeamlight/input000.flat.root"  # test
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/data/offbeamlight/input00*.flat.root"   # 10 files
+# path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/data/offbeamlight/input*.flat.root"    # 70 files
+ismc = false
+disable = true
+
+##################################################################################
+
+
