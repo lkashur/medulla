@@ -5,11 +5,11 @@
 #
 # Arguments:
 #   --project=PROJECT   : Specify the project directory
-#   --tag=TAG           : Git ref to checkout on grid nodes (default: pi0_dev1)
+#   --tag=TAG           : Git ref to checkout on grid nodes (default: develop)
 #######################################################################
 
 # Initialize variables
-PROJECT="pi0_dev1"
+PROJECT="/pnfs/sbnd/scratch/users/rlazur/MCP2025B/ccpi0/pot_5e18/batch"
 TAG="dev1"
 
 # Parse arguments
@@ -102,7 +102,7 @@ fi
 sqlite3 -noheader -cmd ".mode list" project.db "SELECT cfg FROM configuration WHERE jobid=${JOBID};" > job_config.toml
 
 # Copy the systematics TOML file
-ifdh cp $PROJECT/systematics.toml systematics.toml
+ifdh cp $PROJECT/batch/sys_template.toml systematics.toml
 
 # Copy the input data file(s)
 mkdir data
@@ -135,7 +135,7 @@ ls -lrth data/
 #######################################################################
 
 # Run medulla (selection)
-./selection/medulla job_config.toml
+./build/selection/medulla job_config.toml
 ls -lrth
 
 # Copy output file to the output directory
