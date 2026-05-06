@@ -9,7 +9,7 @@
 #######################################################################
 
 # Initialize variables
-PROJECT=""
+PROJECT="/pnfs/sbnd/scratch/users/rlazur/MCP2025B/ccpi0/pot_5e18/batch"
 TAG="feature/dev1"
 
 # Parse arguments
