@@ -5,12 +5,12 @@
 #
 # Arguments:
 #   --project=PROJECT   : Specify the project directory
-#   --tag=TAG           : Git ref to checkout on grid nodes (default: develop)
+#   --tag=TAG           : Git ref to checkout on grid nodes (default: pi0_dev1)
 #######################################################################
 
 # Initialize variables
-PROJECT=""
-TAG="develop"
+PROJECT="pi0_dev1"
+TAG="dev1"
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -77,7 +77,7 @@ ups active
 # Build medulla
 git clone https://github.com/rlazur/medulla.git
 cd medulla
-git checkout dev1
+git checkout feature/dev1
 mkdir build && cd build
 export CC=$(which gcc)
 export CXX=$(which g++)
