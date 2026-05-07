@@ -2,7 +2,7 @@
 [samples.mc]
 key = "mc"
 exposure_type = "pot"
-trees = ['selectedNu','selectedCos']
+trees = ['mc','selected_cos']
 
 [samples.mcsignal]
 key = "mc"
@@ -12,15 +12,15 @@ trees = ['signal',]
 [samples.offbeam]
 key = "offbeam"
 exposure_type = "pot"
-trees = ['selectedNu',]
+trees = ['selected_cos',]
 
 [samples.onbeam]
 key = "onbeam"
 exposure_type = "pot"
 override_category = -100
-trees = ['selectedNu',]
+trees = ['mc',]
 
 [samples.intime]
 key = "intime"
 exposure_type = "livetime"
-trees = ['selectedCos',]
+trees = ['selected_cos',]

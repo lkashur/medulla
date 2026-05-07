@@ -10,9 +10,10 @@
 *.json
 .DS_Store
 
-build/
+build/*
 */CMakeFiles/*
 *.cmake
 Makefile
 
 spineplot/configurations/*
+selection/toml/LAZER.toml

@@ -173,3 +173,9 @@ key = "reco_muon_z"
 range = [-100, 100]
 nbins = 100
 xlabel = "Reconstructed Muon End Point Z [cm]"
+
+[variables.reco_pi0_mass]
+key = "reco_pi0_mass"
+range = [0, 500]
+nbins = 50
+xlabel = "Reconstructed $\\pi^0$ Mass [MeV/c^2]"
