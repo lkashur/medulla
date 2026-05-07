@@ -14,3 +14,5 @@ build/
 */CMakeFiles/*
 *.cmake
 Makefile
+
+spineplot/configurations/analyses/pi0_mass_peak_selection.toml
