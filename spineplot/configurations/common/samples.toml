@@ -2,7 +2,7 @@
 [samples.mc]
 key = "mc"
 exposure_type = "pot"
-trees = ['mc','selected_cos']
+trees = ['mc','offbeam']
 
 [samples.mcsignal]
 key = "mc"
@@ -12,7 +12,7 @@ trees = ['signal',]
 [samples.offbeam]
 key = "offbeam"
 exposure_type = "pot"
-trees = ['selected_cos',]
+trees = ['offbeam',]
 
 [samples.onbeam]
 key = "onbeam"
@@ -23,4 +23,4 @@ trees = ['mc',]
 [samples.intime]
 key = "intime"
 exposure_type = "livetime"
-trees = ['selected_cos',]
+trees = ['offbeam',]

@@ -15,5 +15,4 @@ build/*
 *.cmake
 Makefile
 
-spineplot/configurations/*
-selection/toml/LAZER.toml
+*LAZER*

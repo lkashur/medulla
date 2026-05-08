@@ -2,7 +2,7 @@
 ######## Analysis Configuration #############
 
 [general]
-output = "pi0_mass_peak_selection_2"
+output = "/pnfs/sbnd/scratch/users/rlazur/LAZER/numuCC0pi1pi0"
 primfn = "default_primary_classification"
 pidfn = "default_pid"
 calofn = "default_calo_ke"
@@ -57,12 +57,57 @@ disable = false
 
 
 ########################################
+######## Categories ####################
+
+[[category]] # 0 : Signal: fiducial, cc, single muon, zero charged pions, single pi0
+cuts = [
+    {name = "neutrino"},
+    {name = "iscc"},
+    {name = "fiducial_cut"},
+    {name = "single_muon", parameters = ["@muon_threshold"]},
+    {name = "no_charged_pions", parameters = ["@pion_threshold"]},
+    {name = "single_pi0", parameters = ["@pi0_threshold"]},
+]
+[[category]] # 1 : fiducial, cc, single muon, zero charged pions, at least two pi0s
+cuts = [
+    {name = "neutrino"},
+    {name = "iscc"},
+    {name = "fiducial_cut"},
+    {name = "single_muon", parameters = ["@muon_threshold"]},
+    {name = "no_charged_pions", parameters = ["@pion_threshold"]},
+    {name = "!single_pi0", parameters = ["@pi0_threshold"]},
+]
+[[category]] # 2: fiducial, cc, single muon, at least one charged pion, any number of pi0s
+cuts = [
+    {name = "neutrino"},
+    {name = "iscc"},
+    {name = "fiducial_cut"},
+    {name = "single_muon", parameters = ["@muon_threshold"]},
+    {name = "!no_charged_pions", parameters = ["@pion_threshold"]},
+]
+[[category]] # 3: fiducial, NC, zero muons, any number of charged pions, 
+cuts = [
+    {name = "!iscc"},
+    {name = "fiducial_cut"},
+    {name = "no_muons", parameters = ["@muon_threshold"]},
+    {name = "!no_charged_pions", parameters = ["@pion_threshold"]},
+]
+[[category]] # 4: Other neutrino
+cuts = [
+    {name = "neutrino"},
+]
+[[category]] # 5: Cosmic
+cuts = [
+    {name = "!neutrino"},
+]
+
+########################################
 ######## Tree Definitions ##############
 
 [[tree]]
 name = "mc"
 sim_only = false 
-add_systematics = false
+add_systematics = true
 mode = "reco"
 cut = [
     {name = "fiducial_cut",             type = "reco"},
@@ -76,33 +121,58 @@ cut = [
 ]
 branch = [
 
-    # Interaction-level branches
+    # True Interaction-level
+    { name = "neutrino_id",           type = "true"    },
+    { name = "neutrino_energy",       type = "mctruth" },
+    { name = "baseline",              type = "mctruth" },
     { name = "neutrino_id",           type = "true"    },
     { name = "neutrino_energy",       type = "mctruth" },
     { name = "baseline",              type = "mctruth" },
     { name = "cc",                    type = "mctruth" },
     { name = "pdg",                   type = "mctruth" },
-    { name = "off_axis_angle",        type = "mctruth" },
-    { name = "off_axis_angle_sbnd",   type = "both"    },
-    { name = "off_axis_angle_icarus", type = "both"    },
-    # { name = "category",              type = "true"    },
+    
+    # Other Interaction-level   
     { name = "visible_energy",        type = "both"    },
-    { name = "dpT",                   type = "both"    },
-    { name = "dalphaT",               type = "both"    },
-    { name = "dphiT",                 type = "both"    },
-    { name = "dpL",                   type = "both"    },
-    { name = "pn",                    type = "both"    },
     { name = "vertex_x",              type = "both"    },
     { name = "vertex_y",              type = "both"    },
     { name = "vertex_z",              type = "both"    },
+    # { name = "Q2",                    type = "both"    },
+    # { name = "W",                     type = "both"    },
+
+    # Particle Multiplicity
     { name = "photon_multiplicity",   type = "both",  parameters = [ "@photon_threshold"   ] },
     { name = "electron_multiplicity", type = "both",  parameters = [ "@electron_threshold" ] },
     { name = "pion_multiplicity",     type = "both",  parameters = [ "@pion_threshold"     ] },
     { name = "muon_multiplicity",     type = "both",  parameters = [ "@muon_threshold"     ] },
     { name = "proton_multiplicity",   type = "both",  parameters = [ "@proton_threshold"   ] },
 
+    # Muon Variable Branches
+    {name = "p", type = "both_particle", selector = "leading_muon"},
+    {name = "beam_costheta", type = "both_particle", selector = "leading_muon"},
+
+    # Pi0 reconstruction branches
     {name = "pi0_mass", type = "reco"},
     {name = "mass_max", type = "both"},
+    {name = "pi0_beam_costheta", type = "both"},
+    # {name = "pi0_opening_angle", type = "both"},
+    {name = "pi0_momentum", type = "both"},
+    {name = "pi0_leading_shower_conv_dist", type = "both"},
+    {name = "pi0_subleading_shower_conv_dist", type = "both"},
+    {name = "pi0_energy", type = "both"},
+
+    # TKI
+    {name = "dpT", type = "both"},
+    {name = "dpT_lp", type = "both"},
+    {name = "dpL", type = "both"},
+    {name = "dpL_lp", type = "both"},
+    {name = "pn", type = "both"},
+    {name = "pn_lp", type = "both"},
+    {name = "dphiT", type = "both"},
+    {name = "dalphaT", type = "both"},
+    # {name = "dalphaT_arg", type = "both"},
+
+    # Category branches
+    {name = "category", type = "true"},
     {name = "category_topology_ccpi0_simple1", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
     {name = "category_topology_ccpi0_simple2", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
     {name = "category_topology_ccpi0_complete", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
@@ -126,33 +196,58 @@ cut = [
 ]
 branch = [
 
-    # Interaction-level branches
+    # True Interaction-level
+    { name = "neutrino_id",           type = "true"    },
+    { name = "neutrino_energy",       type = "mctruth" },
+    { name = "baseline",              type = "mctruth" },
     { name = "neutrino_id",           type = "true"    },
     { name = "neutrino_energy",       type = "mctruth" },
     { name = "baseline",              type = "mctruth" },
     { name = "cc",                    type = "mctruth" },
     { name = "pdg",                   type = "mctruth" },
-    { name = "off_axis_angle",        type = "mctruth" },
-    { name = "off_axis_angle_sbnd",   type = "both"    },
-    { name = "off_axis_angle_icarus", type = "both"    },
-    # { name = "category",              type = "true"    },
+    
+    # Other Interaction-level   
     { name = "visible_energy",        type = "both"    },
-    { name = "dpT",                   type = "both"    },
-    { name = "dalphaT",               type = "both"    },
-    { name = "dphiT",                 type = "both"    },
-    { name = "dpL",                   type = "both"    },
-    { name = "pn",                    type = "both"    },
     { name = "vertex_x",              type = "both"    },
     { name = "vertex_y",              type = "both"    },
     { name = "vertex_z",              type = "both"    },
+    # { name = "Q2",                    type = "both"    },
+    # { name = "W",                     type = "both"    },
+
+    # Particle Multiplicity
     { name = "photon_multiplicity",   type = "both",  parameters = [ "@photon_threshold"   ] },
     { name = "electron_multiplicity", type = "both",  parameters = [ "@electron_threshold" ] },
     { name = "pion_multiplicity",     type = "both",  parameters = [ "@pion_threshold"     ] },
     { name = "muon_multiplicity",     type = "both",  parameters = [ "@muon_threshold"     ] },
     { name = "proton_multiplicity",   type = "both",  parameters = [ "@proton_threshold"   ] },
 
+    # Muon Variable Branches
+    {name = "p", type = "both_particle", selector = "leading_muon"},
+    {name = "beam_costheta", type = "both_particle", selector = "leading_muon"},
+
+    # Pi0 reconstruction branches
     {name = "pi0_mass", type = "reco"},
     {name = "mass_max", type = "both"},
+    {name = "pi0_beam_costheta", type = "both"},
+    # {name = "pi0_opening_angle", type = "both"},
+    {name = "pi0_momentum", type = "both"},
+    {name = "pi0_leading_shower_conv_dist", type = "both"},
+    {name = "pi0_subleading_shower_conv_dist", type = "both"},
+    {name = "pi0_energy", type = "both"},
+
+    # TKI
+    {name = "dpT", type = "both"},
+    {name = "dpT_lp", type = "both"},
+    {name = "dpL", type = "both"},
+    {name = "dpL_lp", type = "both"},
+    {name = "pn", type = "both"},
+    {name = "pn_lp", type = "both"},
+    {name = "dphiT", type = "both"},
+    {name = "dalphaT", type = "both"},
+    # {name = "dalphaT_arg", type = "both"},
+
+    # Category branches
+    {name = "category", type = "true"},
     {name = "category_topology_ccpi0_simple1", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
     {name = "category_topology_ccpi0_simple2", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
     {name = "category_topology_ccpi0_complete", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
@@ -162,7 +257,7 @@ branch = [
 
 [[tree]]
 name = "signal"
-sim_only = true
+sim_only = false
 mode = "true"
 cut = [
     {name = "neutrino", type = "true"},
@@ -174,33 +269,58 @@ cut = [
 ]
 branch = [
 
-    # Interaction-level branches
+   # True Interaction-level
+    { name = "neutrino_id",           type = "true"    },
+    { name = "neutrino_energy",       type = "mctruth" },
+    { name = "baseline",              type = "mctruth" },
     { name = "neutrino_id",           type = "true"    },
     { name = "neutrino_energy",       type = "mctruth" },
     { name = "baseline",              type = "mctruth" },
     { name = "cc",                    type = "mctruth" },
     { name = "pdg",                   type = "mctruth" },
-    { name = "off_axis_angle",        type = "mctruth" },
-    { name = "off_axis_angle_sbnd",   type = "both"    },
-    { name = "off_axis_angle_icarus", type = "both"    },
-    # { name = "category",              type = "true"    },
+    
+    # Other Interaction-level   
     { name = "visible_energy",        type = "both"    },
-    { name = "dpT",                   type = "both"    },
-    { name = "dalphaT",               type = "both"    },
-    { name = "dphiT",                 type = "both"    },
-    { name = "dpL",                   type = "both"    },
-    { name = "pn",                    type = "both"    },
     { name = "vertex_x",              type = "both"    },
     { name = "vertex_y",              type = "both"    },
     { name = "vertex_z",              type = "both"    },
+    # { name = "Q2",                    type = "both"    },
+    # { name = "W",                     type = "both"    },
+
+    # Particle Multiplicity
     { name = "photon_multiplicity",   type = "both",  parameters = [ "@photon_threshold"   ] },
     { name = "electron_multiplicity", type = "both",  parameters = [ "@electron_threshold" ] },
     { name = "pion_multiplicity",     type = "both",  parameters = [ "@pion_threshold"     ] },
     { name = "muon_multiplicity",     type = "both",  parameters = [ "@muon_threshold"     ] },
     { name = "proton_multiplicity",   type = "both",  parameters = [ "@proton_threshold"   ] },
 
+    # Muon Variable Branches
+    {name = "p", type = "both_particle", selector = "leading_muon"},
+    {name = "beam_costheta", type = "both_particle", selector = "leading_muon"},
+
+    # Pi0 reconstruction branches
     {name = "pi0_mass", type = "reco"},
     {name = "mass_max", type = "both"},
+    {name = "pi0_beam_costheta", type = "both"},
+    # {name = "pi0_opening_angle", type = "both"},
+    {name = "pi0_momentum", type = "both"},
+    {name = "pi0_leading_shower_conv_dist", type = "both"},
+    {name = "pi0_subleading_shower_conv_dist", type = "both"},
+    {name = "pi0_energy", type = "both"},
+    
+    # TKI
+    {name = "dpT", type = "both"},
+    {name = "dpT_lp", type = "both"},
+    {name = "dpL", type = "both"},
+    {name = "dpL_lp", type = "both"},
+    {name = "pn", type = "both"},
+    {name = "pn_lp", type = "both"},
+    {name = "dphiT", type = "both"},
+    {name = "dalphaT", type = "both"},
+    # {name = "dalphaT_arg", type = "both"},
+
+    # Category branches
+    {name = "category", type = "true"},
     {name = "category_topology_ccpi0_simple1", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
     {name = "category_topology_ccpi0_simple2", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
     {name = "category_topology_ccpi0_complete", type = "true", parameters = ["@photon_threshold", "@electron_threshold", "@muon_threshold", "@pi0_threshold", "@pion_threshold", "@proton_threshold"]},
