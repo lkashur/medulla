@@ -332,7 +332,7 @@ namespace pvars
     template<class T>
     double postpi0adj_spineprod_250625_mc_calo_ke(const T & p)
     {
-        return (1/ (131.7/134.9768)) * prepi0adj_spineprod_250625_mc_calo_ke(p);
+        return (1/ (131.6/134.9768)) * prepi0adj_spineprod_250625_mc_calo_ke(p);
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, postpi0adj_spineprod_250625_mc_calo_ke, postpi0adj_spineprod_250625_mc_calo_ke);
 
@@ -348,7 +348,7 @@ namespace pvars
     template<class T>
     double postpi0adj_spineprod_250625_data_calo_ke(const T & p)
     {
-        return (1/ (130.7/134.9768)) * prepi0adj_spineprod_250625_data_calo_ke(p);
+        return (1/ (131.6/134.9768)) * prepi0adj_spineprod_250625_data_calo_ke(p);
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, postpi0adj_spineprod_250625_data_calo_ke, postpi0adj_spineprod_250625_data_calo_ke);
 
