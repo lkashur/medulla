@@ -178,6 +178,14 @@ namespace cuts::pi0ana
     REGISTER_CUT_SCOPE(RegistrationScope::True, single_pi0, single_pi0);
 
     template<class T>
+    bool no_nonprimary_pi0s(const caf::SRInteractionTruthDLPProxy & obj, std::vector<double> params = {0.0,})
+    {
+        double num_nonprimary_pi0s = utilities_pi0ana::true_nonprimary_pi0_multiplicity(obj, params);
+	return num_nonprimary_pi0s == 0;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::True, no_nonprimary_pi0s, no_nonprimary_pi0s);
+
+    template<class T>
     bool at_least_one_pi0(const caf::SRInteractionTruthDLPProxy & obj, std::vector<double> params = {0.0,})
     {
         double num_primary_pi0s = utilities_pi0ana::true_primary_pi0_multiplicity(obj, params);
